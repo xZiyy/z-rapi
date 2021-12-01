@@ -27,7 +27,6 @@ var youtubs = new YoutubeAPI('your youtube apikey');
 var { color, bgcolor } = require(__path + '/lib/color.js');
 var options = require(__path + '/lib/options.js');
 var {
-	Nulis,
 	Vokal,
 	Base,
 	Github,
@@ -838,37 +837,6 @@ router.get('/base', async (req, res, next) => {
 				res.json(loghandler.error)
 			}
 })
-router.get('/nulis', async (req, res, next) => {
-	var text = req.query.text,
-		 apikeyInput = req.query.apikey;
-	if(!apikeyInput) return res.json(loghandler.notparam)
-	 a = await rapi.findOne({apikey:apikeyInput}) ? true : false
-     if(a == false) return res.json(loghandler.invalidKey)
-	 if(!text) return res.json(loghandler.nottext)
-		Nulis(text)
-		 .then(hasil => {
-			fetch(encodeURI(`https://api.imgbb.com/1/upload?expiration=120&key=28dd175b555860ab2b5cdfedf125fe38&image=${hasil}&name=${randomTextNumber}`))
-                                .then(response => response.json())
-                                .then(data => {
-                                    var urlnya = data.data.url,
-                                        delete_url = data.data.delete_url;
-                                        res.json({
-                                            status : true,
-                                            creator : `${creator}`,
-                                            message : `jangan lupa follow ${creator}`,
-                                            result:{
-                                                url:urlnya,
-                                                delete_url: delete_url,
-                                                info: 'url akan hilang setelah 2 menit'
-                                            }
-                                        })
-                                })
-            })
-           .catch(err => {
-		  res.json(loghandler.error)
-		   })
-})
-
 
 router.get('/github', async (req, res, next) => {
 	var username = req.query.username,
